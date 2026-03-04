@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1XPanel - Ultra Premium SMM</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;600;800&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    </script>
+</head>
+
+<body class="animated-bg">
+    <nav class="glass-card"
+        style="position: fixed; top: 30px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 1300px; z-index: 1000; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; border-radius: 30px;">
+        <div class="logo floating"
+            style="font-size: 1.8rem; font-weight: 800; display: flex; align-items: center; gap: 12px;">
+            <i data-lucide="zap" style="color: var(--accent-primary); fill: var(--accent-primary);"></i>
+            <span class="text-gradient">1XPANEL</span>
+        </div>
+        <div class="nav-links" style="display: flex; gap: 30px; align-items: center;">
+            <a href="#services"
+                style="color: var(--text-main); text-decoration: none; font-weight: 500; font-size: 1.1rem;">Xizmatlar</a>
+            <a href="#pricing"
+                style="color: var(--text-main); text-decoration: none; font-weight: 500; font-size: 1.1rem;">Narxlar</a>
+
+            <button id="themeToggle" class="glass-card"
+                style="padding: 10px; cursor: pointer; color: var(--text-main); width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">
+                <i data-lucide="moon" id="themeIcon"></i>
+            </button>
+
+            <a href="login.html" class="glass-card"
+                style="padding: 12px 30px; text-decoration: none; color: white; background: var(--accent-primary); border: none; font-weight: 600;">Tizimga
+                kirish</a>
+        </div>
+    </nav>
+
+    <header
+        style="height: 110vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; position: relative; overflow: hidden;">
+        <div class="floating"
+            style="position: absolute; top: 15%; left: 10%; width: 300px; height: 300px; background: var(--accent-primary); filter: blur(150px); opacity: 0.2; border-radius: 50%;">
+        </div>
+        <div class="floating"
+            style="position: absolute; bottom: 15%; right: 10%; width: 400px; height: 400px; background: var(--accent-secondary); filter: blur(150px); opacity: 0.2; border-radius: 50%; animation-delay: -2s;">
+        </div>
+
+        <h1 class="reveal hero-title" style="font-weight: 800; margin-bottom: 30px;">
+            Kelajak <span class="text-gradient">SMM</span> <br> <span style="position: relative;">Paneli <small
+                    style="font-size: 1rem; position: absolute; top: 0; right: -40px; background: var(--accent-primary); padding: 5px 10px; border-radius: 20px; letter-spacing: 0;">V2.0</small></span>
+        </h1>
+        <p class="reveal"
+            style="color: var(--text-muted); font-size: 1.4rem; max-width: 800px; margin-bottom: 50px; animation-delay: 0.2s; line-height: 1.4;">
+            Eng so'nggi Glassmorphism dizayni va yumshoq tipografiya asosida yaratilgan platforma. Ijtimoiy tarmoqlarda
+            haqiqiy liderga aylaning.
+        </p>
+        <div class="reveal" style="display: flex; gap: 30px; animation-delay: 0.4s;">
+            <a href="login.html" class="glass-card"
+                style="padding: 20px 50px; background: var(--accent-primary); color: white; text-decoration: none; font-weight: 700; font-size: 1.1rem; box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.5);">Boshlash
+                <i data-lucide="chevron-right" style="vertical-align: middle;"></i></a>
+            <a href="#services" class="glass-card"
+                style="padding: 20px 50px; color: var(--text-main); text-decoration: none; font-weight: 700; font-size: 1.1rem;">Xizmatlarni
+                ko'rish</a>
+        </div>
+    </header>
+
+    <section id="services" style="padding: 150px 20px; max-width: 1400px; margin: 0 auto;">
+        <div style="text-align: center; margin-bottom: 80px;">
+            <h2 class="reveal" style="font-size: 3rem; font-weight: 800; margin-bottom: 15px;">Maksimal <span
+                    class="text-gradient">Sifat</span></h2>
+            <div
+                style="width: 80px; height: 4px; background: var(--accent-primary); margin: 0 auto; border-radius: 2px;">
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px;">
+            <div class="glass-card reveal" style="padding: 60px 45px; text-align: left;">
+                <div
+                    style="width: 70px; height: 70px; background: rgba(59, 130, 246, 0.1); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin-bottom: 30px;">
+                    <i data-lucide="zap" style="width: 35px; height: 35px; color: var(--accent-primary);"></i>
+                </div>
+                <h3 style="font-size: 1.8rem; margin-bottom: 20px;">Ultra-Tezkor</h3>
+                <p style="color: var(--text-muted); font-size: 1.1rem;">Har bir buyurtma soniyalar ichida qayta
+                    ishlanadi va avtomatik tarzda boshlanadi.</p>
+            </div>
+            <div class="glass-card reveal" style="padding: 60px 45px; text-align: left; animation-delay: 0.2s;">
+                <div
+                    style="width: 70px; height: 70px; background: rgba(16, 185, 129, 0.1); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin-bottom: 30px;">
+                    <i data-lucide="shield-check" style="width: 35px; height: 35px; color: #10b981;"></i>
+                </div>
+                <h3 style="font-size: 1.8rem; margin-bottom: 20px;">Xavfsizlik</h3>
+                <p style="color: var(--text-muted); font-size: 1.1rem;">100% maxfiylik va himoyalangan ma'lumotlar. Biz
+                    sizning ishonchingizni qadrlaymiz.</p>
+            </div>
+            <div class="glass-card reveal" style="padding: 60px 45px; text-align: left; animation-delay: 0.4s;">
+                <div
+                    style="width: 70px; height: 70px; background: rgba(139, 92, 246, 0.1); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin-bottom: 30px;">
+                    <i data-lucide="heart" style="width: 35px; height: 35px; color: var(--accent-secondary);"></i>
+                </div>
+                <h3 style="font-size: 1.8rem; margin-bottom: 20px;">Professional</h3>
+                <p style="color: var(--text-muted); font-size: 1.1rem;">Ko'p yillik tajribaga ega mutaxassislar
+                    tomonidan yaratilgan professional xizmatlar.</p>
+            </div>
+        </div>
+    </section>
+
+    <script src="app.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

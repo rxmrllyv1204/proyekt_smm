@@ -1,0 +1,8 @@
+users.db
+.env
+__pycache__/
+*.pyc
+.vscode/
+.idea/
+node_modules/
+migrate_db.py

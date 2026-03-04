@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kirish - 1XPanel</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        // Immediate theme set to prevent flash
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    </script>
+    <style>
+        body {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-main);
+            transition: var(--transition-premium);
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 450px;
+            padding: 50px;
+        }
+
+        /* Segmented Control Style Tabs */
+        .auth-tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 5px;
+            border-radius: 14px;
+            margin-bottom: 35px;
+            position: relative;
+            border: 1px solid var(--border-glass);
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 12px;
+            z-index: 2;
+            transition: color 0.3s var(--apple-spring);
+        }
+
+        .tab-btn.active {
+            color: white;
+        }
+
+        .tab-indicator {
+            position: absolute;
+            top: 5px;
+            bottom: 5px;
+            left: 5px;
+            width: calc(50% - 5px);
+            background: var(--accent-primary);
+            border-radius: 10px;
+            transition: transform 0.4s var(--apple-spring);
+            z-index: 1;
+            box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            transition: all 0.5s var(--apple-spring);
+            transform-origin: top;
+        }
+
+        .field-hidden {
+            display: none;
+            opacity: 0;
+            transform: translateY(-10px) scale(0.95);
+            margin-bottom: 0;
+            height: 0;
+            overflow: hidden;
+        }
+
+        .field-visible {
+            display: block;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            animation: appleEntrance 0.5s var(--apple-spring) forwards;
+        }
+
+        @keyframes appleEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(10px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .stagger-1 {
+            animation-delay: 0.05s;
+        }
+
+        .stagger-2 {
+            animation-delay: 0.1s;
+        }
+
+        .stagger-3 {
+            animation-delay: 0.15s;
+        }
+
+        .stagger-4 {
+            animation-delay: 0.2s;
+        }
+
+        /* Verification Modal Styles */
+        .verif-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(20px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .verif-modal {
+            width: 90%;
+            max-width: 400px;
+            padding: 40px;
+            text-align: center;
+            animation: appleSlideUp 0.6s var(--apple-spring);
+        }
+
+        .code-inputs {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .code-inputs input {
+            width: 55px;
+            height: 65px;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            border-radius: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .code-inputs input:focus {
+            border-color: var(--accent-primary);
+            background: rgba(59, 130, 246, 0.1);
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            color: var(--text-main) !important;
+            font-size: 1rem;
+            outline: none;
+            transition: var(--transition-premium);
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            background: rgba(255, 255, 255, 0.08) !important;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
+        }
+
+        /* Autofill fix - prevents white background and respects theme text color */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active {
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: var(--text-main) !important;
+            transition: background-color 5000s ease-in-out 0s;
+            box-shadow: inset 0 0 20px 20px rgba(255, 255, 255, 0.01) !important;
+        }
+
+        .primary-btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            border-radius: 18px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition-premium);
+            margin-top: 20px;
+            box-shadow: 0 10px 25px rgba(0, 122, 255, 0.3);
+        }
+
+        .primary-btn:hover {
+            transform: scale(1.02);
+            filter: brightness(1.1);
+        }
+
+        .primary-btn:active {
+            transform: scale(0.98);
+        }
+
+        .error-msg {
+            color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            display: none;
+            animation: shake 0.4s ease;
+        }
+
+        .success-msg {
+            color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            display: none;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            text-align: center;
+            font-weight: 600;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            75% {
+                transform: translateX(5px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="glass-card auth-card reveal">
+        <div style="position: absolute; top: 20px; right: 20px;">
+            <button id="themeToggle" class="glass-card"
+                style="padding: 10px; cursor: pointer; color: var(--text-main); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">
+                <i data-lucide="moon" id="themeIcon"></i>
+            </button>
+        </div>
+        <div class="logo"
+            style="display: flex; align-items: center; gap: 10px; margin-bottom: 30px; justify-content: center;">
+            <i data-lucide="zap" style="color: var(--accent-primary);"></i>
+            <span class="text-gradient" style="font-size: 1.8rem; font-weight: 800;">1XPANEL</span>
+        </div>
+
+        <div class="auth-tabs">
+            <div class="tab-indicator" id="indicator"></div>
+            <button class="tab-btn active" id="loginTab">Kirish</button>
+            <button class="tab-btn" id="regTab">Ro'yxatdan o'tish</button>
+        </div>
+
+        <div id="authSuccessMsg" class="success-msg">Muvaffaqiyatli ro'yxatdan o'tildi!</div>
+        <div id="authErrorMsg" class="error-msg"></div>
+
+        <form id="authForm">
+            <div class="input-group stagger-1">
+                <label id="userLabel">Login / Email</label>
+                <div style="position: relative;">
+                    <i data-lucide="user"
+                        style="position: absolute; left: 15px; top: 18px; width: 18px; color: var(--text-muted);"></i>
+                    <input type="text" id="authUsername" placeholder="Foydalanuvchi nomi" style="padding-left: 45px;"
+                        required>
+                </div>
+            </div>
+
+            <div class="input-group field-hidden stagger-2" id="emailGroup">
+                <label>Gmail / Email</label>
+                <div style="position: relative;">
+                    <i data-lucide="mail"
+                        style="position: absolute; left: 15px; top: 18px; width: 18px; color: var(--text-muted);"></i>
+                    <input type="email" id="authEmail" placeholder="example@gmail.com" style="padding-left: 45px;">
+                </div>
+            </div>
+
+            <div class="input-group stagger-3">
+                <label>Parol</label>
+                <div style="position: relative;">
+                    <i data-lucide="lock"
+                        style="position: absolute; left: 15px; top: 18px; width: 18px; color: var(--text-muted);"></i>
+                    <input type="password" id="authPassword" placeholder="********" style="padding-left: 45px;"
+                        required>
+                </div>
+            </div>
+
+            <div class="input-group field-hidden stagger-4" id="confirmGroup">
+                <label>Parolni takrorlang</label>
+                <div style="position: relative;">
+                    <i data-lucide="shield-check"
+                        style="position: absolute; left: 15px; top: 18px; width: 18px; color: var(--text-muted);"></i>
+                    <input type="password" id="authConfirmPassword" placeholder="********" style="padding-left: 45px;">
+                </div>
+            </div>
+
+            <button type="submit" class="primary-btn" id="submitBtn">Tizimga kirish</button>
+        </form>
+    </div>
+
+    <!-- Verification Modal -->
+    <div class="verif-overlay" id="verifOverlay">
+        <div class="glass-card verif-modal">
+            <div
+                style="width: 60px; height: 60px; background: rgba(59, 130, 246, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                <i data-lucide="mail-check" style="color: var(--accent-primary);"></i>
+            </div>
+            <h2 style="margin-bottom: 10px;">Tasdiqlash kodi</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Gmail manzilingizga yuborilgan 4 xonali kodni
+                kiriting</p>
+
+            <div class="code-inputs" id="codeInputsContainer">
+                <input type="text" maxlength="1" id="c1">
+                <input type="text" maxlength="1" id="c2">
+                <input type="text" maxlength="1" id="c3">
+                <input type="text" maxlength="1" id="c4">
+            </div>
+
+            <div id="verifErrorMsg" class="error-msg" style="margin-top: -10px; margin-bottom: 20px;"></div>
+
+            <button class="primary-btn" id="verifyBtn" style="margin-top: 5px;">Tasdiqlash</button>
+            <p style="margin-top: 20px; font-size: 0.85rem;">
+                <a href="javascript:void(0)" onclick="closeVerif()" style="color: #ef4444; font-weight: 600;">Bekor
+                    qilish</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        lucide.createIcons();
+
+        const loginTab = document.getElementById('loginTab');
+        const regTab = document.getElementById('regTab');
+        const submitBtn = document.getElementById('submitBtn');
+        const authForm = document.getElementById('authForm');
+
+        let isLogin = true;
+
+        const indicator = document.getElementById('indicator');
+
+        loginTab.onclick = () => {
+            if (isLogin) return;
+            isLogin = true;
+            loginTab.classList.add('active');
+            regTab.classList.remove('active');
+            indicator.style.transform = 'translateX(0)';
+            submitBtn.textContent = 'Tizimga kirish';
+
+            document.getElementById('emailGroup').classList.replace('field-visible', 'field-hidden');
+            document.getElementById('confirmGroup').classList.replace('field-visible', 'field-hidden');
+
+            document.getElementById('authEmail').required = false;
+            document.getElementById('authConfirmPassword').required = false;
+            document.getElementById('userLabel').textContent = 'Login / Email';
+        };
+
+        regTab.onclick = () => {
+            if (!isLogin) return;
+            isLogin = false;
+            regTab.classList.add('active');
+            loginTab.classList.remove('active');
+            indicator.style.transform = 'translateX(100%)';
+            submitBtn.textContent = 'Hisob ochish';
+
+            document.getElementById('emailGroup').classList.replace('field-hidden', 'field-visible');
+            document.getElementById('confirmGroup').classList.replace('field-hidden', 'field-visible');
+
+            document.getElementById('authEmail').required = true;
+            document.getElementById('authConfirmPassword').required = true;
+            document.getElementById('userLabel').textContent = 'Foydalanuvchi nomi';
+            if (window.lucide) lucide.createIcons();
+        };
+
+        const showError = (elId, msg) => {
+            const el = document.getElementById(elId);
+            el.textContent = msg;
+            el.style.display = 'block';
+            setTimeout(() => { el.style.animation = 'none'; el.offsetHeight; el.style.animation = 'shake 0.4s ease'; }, 10);
+        };
+
+        const hideErrors = () => {
+            document.querySelectorAll('.error-msg').forEach(el => el.style.display = 'none');
+            document.getElementById('authSuccessMsg').style.display = 'none';
+        };
+
+        authForm.onsubmit = async (e) => {
+            e.preventDefault();
+            hideErrors();
+            const username = document.getElementById('authUsername').value;
+            const password = document.getElementById('authPassword').value;
+
+            if (!isLogin) {
+                const email = document.getElementById('authEmail').value;
+                const confirmPass = document.getElementById('authConfirmPassword').value;
+
+                if (password !== confirmPass) {
+                    showError('authErrorMsg', 'Xatolik: Parollar bir xil emas!');
+                    return;
+                }
+
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Kod yuborilmoqda...';
+
+                try {
+                    await window.apiSendVerifCode(email);
+                    document.getElementById('verifOverlay').style.display = 'flex';
+                    // Auto focus first input
+                    document.getElementById('c1').focus();
+                } catch (error) {
+                    showError('authErrorMsg', 'Xatolik: ' + error.message);
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Hisob ochish';
+                }
+            } else {
+                // Admin Secret Access
+                if (username === '1204' && password === '1204') {
+                    window.location.href = 'admin.html';
+                    return;
+                }
+
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Yuklanmoqda...';
+
+                try {
+                    await window.apiLogin(username, password);
+                    window.location.href = 'dashboard.html';
+                } catch (error) {
+                    showError('authErrorMsg', 'Xatolik: ' + error.message);
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Tizimga kirish';
+                }
+            }
+        };
+
+        // Verification Input Logic
+        const inputs = document.querySelectorAll('.code-inputs input');
+        inputs.forEach((input, index) => {
+            input.oninput = (e) => {
+                if (e.inputType === 'deleteContentBackward') return;
+                if (input.value && index < 3) inputs[index + 1].focus();
+            };
+            input.onkeydown = (e) => {
+                if (e.key === 'Backspace' && !input.value && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            };
+        });
+
+        window.closeVerif = () => {
+            document.getElementById('verifOverlay').style.display = 'none';
+        };
+
+        document.getElementById('verifyBtn').onclick = async () => {
+            hideErrors();
+            const code = Array.from(inputs).map(i => i.value).join('');
+            if (code.length < 4) {
+                showError('verifErrorMsg', "Iltimos, 4 xonali kodni to'liq kiriting!");
+                return;
+            }
+
+            const username = document.getElementById('authUsername').value;
+            const email = document.getElementById('authEmail').value;
+            const password = document.getElementById('authPassword').value;
+            const btn = document.getElementById('verifyBtn');
+
+            btn.disabled = true;
+            btn.textContent = 'Tasdiqlanmoqda...';
+
+            try {
+                await window.apiVerifyRegister(username, email, password, code);
+                closeVerif();
+                document.getElementById('authSuccessMsg').style.display = 'block';
+                loginTab.click();
+            } catch (error) {
+                showError('verifErrorMsg', 'Xatolik: ' + error.message);
+                // Clear inputs on error for retry
+                inputs.forEach(i => i.value = '');
+                inputs[0].focus();
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Tasdiqlash';
+            }
+        };
+    </script>
+</body>
+
+</html>
