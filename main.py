@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException, status, UploadFile, File, Form
+from fastapi.responses import FileResponse
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -90,6 +91,26 @@ if not os.path.exists("uploads"):
     os.makedirs("uploads")
 
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
+
+# Frontend routes
+@app.get("/")
+async def serve_index():
+    return FileResponse("index.html")
+
+@app.get("/login")
+async def serve_login():
+    return FileResponse("login.html")
+
+@app.get("/dashboard")
+async def serve_dashboard():
+    return FileResponse("dashboard.html")
+
+@app.get("/admin")
+async def serve_admin():
+    return FileResponse("admin.html")
+
+# Mount current directory for CSS/JS files
+app.mount("/", StaticFiles(directory=".", html=True), name="static")
 
 # Dependency to get DB session
 def get_db():
