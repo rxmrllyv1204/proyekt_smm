@@ -9,6 +9,7 @@ import database, auth
 import os
 import random
 import smtplib
+import httpx
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from dotenv import load_dotenv
@@ -110,7 +111,18 @@ async def serve_admin():
     return FileResponse("admin.html")
 
 # Mount current directory for CSS/JS files
-app.mount("/", StaticFiles(directory=".", html=True), name="static")
+# Serve CSS and JS explicitly to avoid exposing .env or databases
+@app.get("/style.css")
+async def serve_css():
+    return FileResponse("style.css")
+
+@app.get("/app.js")
+async def serve_js():
+    return FileResponse("app.js")
+
+# Mount img directory if it exists
+if os.path.exists("img"):
+    app.mount("/img", StaticFiles(directory="img"), name="img")
 
 # Dependency to get DB session
 def get_db():
@@ -481,7 +493,6 @@ def delete_service(service_id: int, db: Session = Depends(get_db)):
     db.commit()
     return {"message": "Xizmat o'chirildi"}
 
-import httpx
 
 class OrderCreate(BaseModel):
     service_id: str # This is now the external_service_id or our internal ID? Let's use external_service_id for simplicity as the link
@@ -840,7 +851,6 @@ async def public_api_v2(
         if api_settings and api_settings.api_key and api_settings.api_url:
             print(f"DEBUG API V2: Forwarding order #{new_order.id} to {api_settings.api_url}")
             try:
-                import httpx
                 async with httpx.AsyncClient() as client:
                     payload = {
                         "key": api_settings.api_key,
